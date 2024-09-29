@@ -1,5 +1,6 @@
 package com.healthybites.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -56,6 +57,7 @@ public class Cliente {
             foreignKey = @ForeignKey(name = "FK_cliente_usuario"))
     private Usuario usuario;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
     private List<Recompensa> recompensas;
 

@@ -1,4 +1,11 @@
 package com.healthybites.exception;
 
-public class ResourceNotFound {
+public class ResourceNotFoundException extends RuntimeException {
+    public ResourceNotFoundException() {
+        super();
+    }
+
+    public ResourceNotFoundException(String message) {
+        super(message);
+    }
 }

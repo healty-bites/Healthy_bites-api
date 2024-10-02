@@ -1,4 +1,85 @@
 package com.healthybites.service.impl;
 
-public class AdminRecompensaServiceImpl {
+import com.healthybites.dto.RecompensaDTO;
+import com.healthybites.exception.BadRequestException;
+import com.healthybites.exception.ResourceNotFoundException;
+import com.healthybites.mapper.RecompensaMapper;
+import com.healthybites.model.entity.Recompensa;
+import com.healthybites.repository.RecompensaRepository;
+import com.healthybites.service.AdminRecompensaService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Stream;
+
+@RequiredArgsConstructor
+@Service
+public class AdminRecompensaServiceImpl implements AdminRecompensaService {
+
+    @Autowired
+    private final RecompensaRepository recompensaRepository;
+
+    @Autowired
+    private final RecompensaMapper recompensaMapper;
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<RecompensaDTO> getAll() {
+        List<Recompensa> recompensas = recompensaRepository.findAll();
+        return recompensas.stream()
+                .map(recompensaMapper::toDto)
+                .toList();
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Page<RecompensaDTO> paginate(Pageable pageable) {
+        Page<Recompensa> recompensas = recompensaRepository.findAll(pageable);
+        return recompensas.map(recompensaMapper::toDto);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public RecompensaDTO findById(Integer id) {
+        Recompensa recompensa = recompensaRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("La recompensa no fue encontrada"));
+        return recompensaMapper.toDto(recompensa);
+    }
+
+    @Transactional
+    @Override
+    public RecompensaDTO create(RecompensaDTO recompensaDTO) {
+        Recompensa recompensa = recompensaMapper.toEntity(recompensaDTO);
+        recompensaRepository.save(recompensa);
+        return recompensaMapper.toDto(recompensa);
+    }
+
+    @Transactional
+    @Override
+    public RecompensaDTO update(Integer id, RecompensaDTO updateRecompensaDTO) {
+        Recompensa recompensaFromDb = recompensaRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("La recompensa no existe"));
+
+        recompensaFromDb.setNombre(updateRecompensaDTO.getNombre());
+        recompensaFromDb.setDescripcion(updateRecompensaDTO.getDescripcion());
+        recompensaFromDb.setDiasRequeridos(updateRecompensaDTO.getDiasRequeridos());
+
+        recompensaFromDb = recompensaRepository.save(recompensaFromDb);
+        return recompensaMapper.toDto(recompensaFromDb);
+    }
+
+    @Transactional
+    @Override
+    public void delete(Integer id) {
+        Recompensa recompensa = recompensaRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("La recompensa no existe"));
+        recompensaRepository.delete(recompensa);
+    }
 }
+

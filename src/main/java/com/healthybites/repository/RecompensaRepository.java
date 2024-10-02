@@ -1,4 +1,8 @@
 package com.healthybites.repository;
 
-public interface RecompensaRepository {
+import com.healthybites.model.entity.Cliente;
+import com.healthybites.model.entity.Recompensa;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface RecompensaRepository extends JpaRepository<Recompensa, Integer> {
 }

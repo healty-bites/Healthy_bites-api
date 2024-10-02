@@ -12,4 +12,7 @@ public interface AdminClienteService {
     Cliente create(Cliente cliente);
     Cliente update(Integer id, Cliente updateCliente);
     void delete(Integer id);
+
+    interface AdminRecompensaService {
+    }
 }

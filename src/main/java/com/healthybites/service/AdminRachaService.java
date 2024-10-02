@@ -1,15 +1,17 @@
 package com.healthybites.service;
 
-import com.healthybites.model.entity.Racha;
+import com.healthybites.dto.RachaDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 public interface AdminRachaService {
-    List<Racha> getAll();
-    Page<Racha> paginate(Pageable pageable);
-    Racha findById(Integer id);
-    Racha create(Racha racha);
-    Racha update(Integer id, Racha updateRacha);
+    List<RachaDTO> getAll();
+    Page<RachaDTO> paginate(Pageable pageable);
+    RachaDTO findById(Integer id);
+    RachaDTO create(RachaDTO RecompensaDTO);
+    RachaDTO update(Integer id, RachaDTO updateRachaDTO);
     void delete(Integer id);
 }

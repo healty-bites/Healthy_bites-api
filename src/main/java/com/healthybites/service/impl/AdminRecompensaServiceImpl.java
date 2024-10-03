@@ -34,9 +34,6 @@ public class AdminRecompensaServiceImpl implements AdminRecompensaService {
     private final RecompensaMapper recompensaMapper;
 
     @Autowired
-    private final RachaRepository rachaRepository; // Añadir el repositorio de rachas
-
-    @Autowired
     private final ClienteRepository clienteRepository; // Añadir el repositorio de clientes
 
     @Transactional(readOnly = true)

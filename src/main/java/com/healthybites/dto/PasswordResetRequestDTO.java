@@ -5,13 +5,9 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
-public class LoginRequest {
-
-    @Email(message = "El correo debe ser un email válido")
+public class PasswordResetRequestDTO {
     @NotBlank(message = "El correo es obligatorio")
+    @Email(message = "Debe ser un email válido")
     private String correo;
-
-    @NotBlank(message = "La contraseña es obligatoria")
-    private String contrasena;
-
 }
+

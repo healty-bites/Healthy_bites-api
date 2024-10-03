@@ -53,4 +53,7 @@ public class Cliente {
 
     public void setCreatedAt(LocalDateTime now) {
     }
+
+    @Column(name = "reset_password_token")
+    private String resetPasswordToken;
 }

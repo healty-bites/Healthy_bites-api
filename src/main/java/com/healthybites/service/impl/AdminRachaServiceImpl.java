@@ -83,6 +83,29 @@ public class AdminRachaServiceImpl implements AdminRachaService {
                 .orElseThrow(() -> new ResourceNotFoundException("Racha no encontrada: " + id));
         rachaRepository.delete(racha);
     }
+
+    @Override
+    @Transactional
+    public RachaDTO asignarRachaACliente(Integer rachaId, Integer clienteId) {
+        // Busca la racha y el cliente por su ID
+        Racha racha = rachaRepository.findById(rachaId)
+                .orElseThrow(() -> new ResourceNotFoundException("Racha no encontrada: " + rachaId));
+
+        Cliente cliente = clienteRepository.findById(clienteId)
+                .orElseThrow(() -> new ResourceNotFoundException("Cliente no encontrado: " + clienteId));
+
+        // Asigna la racha al cliente (puedes hacer ajustes según tu lógica)
+        racha.setCliente(cliente);
+
+        // Guarda la racha actualizada
+        rachaRepository.save(racha);
+
+        // Retorna el DTO de la racha
+        return rachaMapper.toDto(racha);
+    }
+
+
+
 }
 
 

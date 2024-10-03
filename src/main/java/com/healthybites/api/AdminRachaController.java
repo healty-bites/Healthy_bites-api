@@ -58,4 +58,15 @@ public class AdminRachaController {
         adminRachaService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+
+    @PostMapping("/{rachaId}/asignar/{clienteId}")
+    public ResponseEntity<RachaDTO> asignarRacha(
+            @PathVariable Integer rachaId,
+            @PathVariable Integer clienteId) {
+        RachaDTO rachaAsignada = adminRachaService.asignarRachaACliente(rachaId, clienteId);
+        return ResponseEntity.ok(rachaAsignada);
+    }
+
+
 }

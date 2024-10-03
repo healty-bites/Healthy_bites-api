@@ -62,4 +62,14 @@ public class AdminRecompensaController {
         adminRecompensaService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @PostMapping("/{recompensaId}/asignar/{clienteId}")
+    public ResponseEntity<RecompensaDTO> asignarRecompensaACliente(
+            @PathVariable Integer recompensaId,
+            @PathVariable Integer clienteId) {
+        RecompensaDTO recompensaAsignada = adminRecompensaService.asignarRecompensaACliente(recompensaId, clienteId);
+        return ResponseEntity.ok(recompensaAsignada);
+    }
+
+
 }

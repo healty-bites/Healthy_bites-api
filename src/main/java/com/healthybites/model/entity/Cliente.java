@@ -1,5 +1,6 @@
 package com.healthybites.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -46,10 +47,8 @@ public class Cliente {
             foreignKey = @ForeignKey(name = "FK_cliente_suscripcion"))
     private Suscripcion suscripcion;
 
-    @ManyToOne
-    @JoinColumn(name = "id_racha", referencedColumnName = "id",
-            foreignKey = @ForeignKey(name = "FK_cliente_racha"))
-    private Racha racha;
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
+    private List<Racha> rachas;
 
     @OneToOne
     @JoinColumn(name = "id_usuario", referencedColumnName = "id",

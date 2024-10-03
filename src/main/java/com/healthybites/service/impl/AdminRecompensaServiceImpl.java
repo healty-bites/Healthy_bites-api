@@ -4,7 +4,11 @@ import com.healthybites.dto.RecompensaDTO;
 import com.healthybites.exception.BadRequestException;
 import com.healthybites.exception.ResourceNotFoundException;
 import com.healthybites.mapper.RecompensaMapper;
+import com.healthybites.model.entity.Cliente;
+import com.healthybites.model.entity.Racha;
 import com.healthybites.model.entity.Recompensa;
+import com.healthybites.repository.ClienteRepository;
+import com.healthybites.repository.RachaRepository;
 import com.healthybites.repository.RecompensaRepository;
 import com.healthybites.service.AdminRecompensaService;
 import lombok.RequiredArgsConstructor;
@@ -22,11 +26,18 @@ import java.util.stream.Stream;
 @Service
 public class AdminRecompensaServiceImpl implements AdminRecompensaService {
 
+
     @Autowired
     private final RecompensaRepository recompensaRepository;
 
     @Autowired
     private final RecompensaMapper recompensaMapper;
+
+    @Autowired
+    private final RachaRepository rachaRepository; // Añadir el repositorio de rachas
+
+    @Autowired
+    private final ClienteRepository clienteRepository; // Añadir el repositorio de clientes
 
     @Transactional(readOnly = true)
     @Override
@@ -81,5 +92,25 @@ public class AdminRecompensaServiceImpl implements AdminRecompensaService {
                 .orElseThrow(() -> new ResourceNotFoundException("La recompensa no existe"));
         recompensaRepository.delete(recompensa);
     }
+
+
+
+    @Transactional
+    @Override
+    public RecompensaDTO asignarRecompensaACliente(Integer recompensaId, Integer clienteId) {
+        Recompensa recompensa = recompensaRepository.findById(recompensaId)
+                .orElseThrow(() -> new ResourceNotFoundException("Recompensa no encontrada: " + recompensaId));
+
+        Cliente cliente = clienteRepository.findById(clienteId)
+                .orElseThrow(() -> new ResourceNotFoundException("Cliente no encontrado: " + clienteId));
+
+        // Asumiendo que tienes una relación entre Recompensa y Cliente
+        recompensa.setCliente(cliente); // Esto asigna el cliente a la recompensa.
+        recompensaRepository.save(recompensa); // Guarda la recompensa actualizada.
+
+        return recompensaMapper.toDto(recompensa); // Retorna la recompensa actualizada como DTO.
+    }
+
+
 }
 

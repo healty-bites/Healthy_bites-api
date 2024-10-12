@@ -22,6 +22,12 @@ public class Cliente {
     @Column(name = "sexo", nullable = false)
     private String sexo;
 
+    @Column(name = "correo", nullable = false)
+    private String correo;
+
+    @Column(name = "contrasena", nullable = false)
+    private String contrasena;
+
     @Column(name = "edad", nullable = false)
     private int edad;
 

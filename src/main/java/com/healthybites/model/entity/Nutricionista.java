@@ -3,6 +3,7 @@ package com.healthybites.model.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -18,6 +19,12 @@ public class Nutricionista {
 
     @Column(name = "apellido", nullable = false)
     private String apellido;
+
+    @Column(name = "fecha_creacion", nullable = false)
+    private LocalDateTime fechaCreacion;
+
+    @Column(name = "fecha_actualizacion", nullable = false)
+    private LocalDateTime fechaActualizacion;
 
     @OneToMany(mappedBy = "nutricionista", cascade = CascadeType.ALL)
     private List<PlanAlimenticio> planesAlimenticios;

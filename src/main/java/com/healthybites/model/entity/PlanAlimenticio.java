@@ -4,6 +4,7 @@ import com.healthybites.model.enums.PlanObjetivo;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -26,6 +27,12 @@ public class PlanAlimenticio {
 
     @Column(name = "es_gratis", nullable = false)
     private boolean esGratis;
+
+    @Column(name = "fecha_creacion", nullable = false)
+    private LocalDateTime fechaCreacion;
+
+    @Column(name = "fecha_actualizacion", nullable = false)
+    private LocalDateTime fechaActualizacion;
 
     @OneToMany(mappedBy = "planAlimenticio", cascade = CascadeType.ALL)
     private List<ComidaDiaria> comidasDiarias;

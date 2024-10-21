@@ -3,6 +3,7 @@ package com.healthybites.model.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -22,12 +23,6 @@ public class Cliente {
     @Column(name = "sexo", nullable = false)
     private String sexo;
 
-    @Column(name = "correo", nullable = false)
-    private String correo;
-
-    @Column(name = "contrasena", nullable = false)
-    private String contrasena;
-
     @Column(name = "edad", nullable = false)
     private int edad;
 
@@ -37,10 +32,11 @@ public class Cliente {
     @Column(name = "peso", nullable = false)
     private double peso;
 
-    @ManyToOne
-    @JoinColumn(name = "id_grupo", referencedColumnName = "id",
-            foreignKey = @ForeignKey(name = "FK_cliente_grupo"))
-    private Grupo grupo;
+    @Column(name = "fecha_creacion", nullable = false)
+    private LocalDateTime fechaCreacion;
+
+    @Column(name = "fecha_actualizacion", nullable = false)
+    private LocalDateTime fechaActualizacion;
 
     @ManyToOne
     @JoinColumn(name = "id_meta", referencedColumnName = "id",
@@ -67,5 +63,11 @@ public class Cliente {
 
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
     private List<Habito> habitos;
+
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
+    private List<AccesoContenido> accesoContenidos;
+
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
+    private List<AccesoPlan> planesAlimenticios;
 
 }

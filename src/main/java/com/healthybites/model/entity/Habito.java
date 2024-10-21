@@ -3,6 +3,8 @@ package com.healthybites.model.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
 @Entity
 @Table(name = "habito")
@@ -25,6 +27,12 @@ public class Habito {
 
     @Column(name = "calidad_de_sueno", nullable = false)
     private float calidadDeSueno;
+
+    @Column(name = "fecha_creacion", nullable = false)
+    private LocalDateTime fechaCreacion;
+
+    @Column(name = "fecha_actualizacion", nullable = false)
+    private LocalDateTime fechaActualizacion;
 
     @ManyToOne
     @JoinColumn(name = "id_cliente", referencedColumnName = "id",

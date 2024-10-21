@@ -4,7 +4,7 @@ import com.healthybites.model.enums.TipoSuscripcion;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -22,10 +22,10 @@ public class Suscripcion {
     private double precio;
 
     @Column(name = "fecha_inicio", nullable = false)
-    private Date fechaInicio;
+    private LocalDateTime fechaInicio;
 
     @Column(name = "fecha_fin", nullable = false)
-    private Date fechaFin;
+    private LocalDateTime fechaFin;
 
     @ManyToOne
     @JoinColumn(name = "id_cliente", referencedColumnName = "id",

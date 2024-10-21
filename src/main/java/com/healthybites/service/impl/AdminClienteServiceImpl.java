@@ -1,5 +1,7 @@
 package com.healthybites.service.impl;
 
+import com.healthybites.dto.ClienteDTO;
+import com.healthybites.mapper.ClienteMapper;
 import com.healthybites.model.entity.Cliente;
 import com.healthybites.repository.ClienteRepository;
 import com.healthybites.service.AdminClienteService;
@@ -7,50 +9,69 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
 public class AdminClienteServiceImpl implements AdminClienteService {
 
     private final ClienteRepository clienteRepository;
+    private final ClienteMapper clienteMapper;
 
     @Transactional(readOnly = true)
     @Override
-    public List<Cliente> getAll() {
-        return clienteRepository.findAll();
+    public List<ClienteDTO> getAll() {
+        List<Cliente> clientes = clienteRepository.findAll();
+        return clientes.stream()
+                .map(clienteMapper::toDTO)
+                .collect(Collectors.toList());
     }
 
-    @Transactional(readOnly = true)
     @Override
-    public Cliente findById(Integer id) {
-        return clienteRepository.findById(id).
-                orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
+    public ClienteDTO findById(Integer id) {
+        Cliente cliente = clienteRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("El Cliente con id " + id + " no existe"));
+        return clienteMapper.toDTO(cliente);
     }
 
-    @Transactional
     @Override
-    public Cliente create(Cliente cliente) {
-        return clienteRepository.save(cliente);
+    public ClienteDTO create(ClienteDTO clienteDTO) {
+        clienteRepository.findByNombreAndApellido(clienteDTO.getNombre(), clienteDTO.getApellido())
+                .ifPresent(cliente -> {
+                    throw new RuntimeException("El Cliente ya existe con el mismo nombre y apellido");
+                });
+
+        Cliente cliente = clienteMapper.toEntity(clienteDTO);
+        cliente.setFechaCreacion(LocalDateTime.now());
+        cliente.setFechaActualizacion(LocalDateTime.now());
+        Cliente savedCliente = clienteRepository.save(cliente);
+
+        return clienteMapper.toDTO(savedCliente);
     }
 
-    @Transactional
     @Override
-    public Cliente update(Integer id, Cliente updateCliente) {
-        Cliente clienteFromDB = findById(id);
-        clienteFromDB.setNombre(updateCliente.getNombre());
-        clienteFromDB.setApellido(updateCliente.getApellido());
-        clienteFromDB.setSexo(updateCliente.getSexo());
-        clienteFromDB.setEdad(updateCliente.getEdad());
-        clienteFromDB.setAltura(updateCliente.getAltura());
-        clienteFromDB.setPeso(updateCliente.getPeso());
-        return clienteRepository.save(clienteFromDB);
+    public ClienteDTO update(Integer id, ClienteDTO updatedClienteDTO) {
+        Cliente cliente = clienteRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("El Cliente con id " + id + " no existe"));
+
+        cliente.setNombre(updatedClienteDTO.getNombre());
+        cliente.setApellido(updatedClienteDTO.getApellido());
+        cliente.setSexo(updatedClienteDTO.getSexo());
+        cliente.setEdad(updatedClienteDTO.getEdad());
+        cliente.setAltura(updatedClienteDTO.getAltura());
+        cliente.setPeso(updatedClienteDTO.getPeso());
+        cliente.setFechaActualizacion(LocalDateTime.now());
+        Cliente savedCliente = clienteRepository.save(cliente);
+
+        return clienteMapper.toDTO(savedCliente);
     }
 
-    @Transactional
     @Override
     public void delete(Integer id) {
-        Cliente cliente = findById(id);
+        Cliente cliente = clienteRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("El Cliente con id " + id + " no existe"));
         clienteRepository.delete(cliente);
     }
 }

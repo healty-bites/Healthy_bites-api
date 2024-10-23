@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 @Data
 @Entity
 @Table(name = "racha")
+//@IdClass(RachaPK.class)
 public class Racha {
 
     @Id

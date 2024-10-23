@@ -6,8 +6,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
-public class ClienteDTO {
-    private Integer id;
+public class ClienteCreateDTO {
 
     @NotBlank(message = "El nombre es obligatorio")
     @Size(max = 50, message = "El nombre debe tener 50 caracteres o menos")
@@ -28,5 +27,7 @@ public class ClienteDTO {
 
     @NotNull(message = "El peso es obligatorio")
     private double peso;
+
+    private Integer suscripcionId;
 
 }

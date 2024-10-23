@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Entity
@@ -20,15 +21,4 @@ public class Suscripcion {
 
     @Column(name = "precio", nullable = false)
     private double precio;
-
-    @Column(name = "fecha_inicio", nullable = false)
-    private LocalDateTime fechaInicio;
-
-    @Column(name = "fecha_fin", nullable = false)
-    private LocalDateTime fechaFin;
-
-    @ManyToOne
-    @JoinColumn(name = "id_cliente", referencedColumnName = "id",
-            foreignKey = @ForeignKey(name = "FK_suscripcion_cliente"))
-    private Cliente cliente;
 }

@@ -19,7 +19,7 @@ public class SuscripcionMapper {
 
     public SuscripcionDetailsDTO toDTO(Suscripcion suscripcion) {
         SuscripcionDetailsDTO suscripcionDetailsDTO = modelMapper.map(suscripcion, SuscripcionDetailsDTO.class);
-        suscripcionDetailsDTO.setClienteNombre(suscripcion.getCliente().getNombre() + " " + suscripcion.getCliente().getApellido());
+
         suscripcionDetailsDTO.setPrecio(suscripcion.getPrecio());
 
         return suscripcionDetailsDTO;

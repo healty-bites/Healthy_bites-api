@@ -39,19 +39,9 @@ public class Cliente {
     private LocalDateTime fechaActualizacion;
 
     @ManyToOne
-    @JoinColumn(name = "id_meta", referencedColumnName = "id",
-            foreignKey = @ForeignKey(name = "FK_cliente_meta"))
-    private Meta meta;
-
-    @ManyToOne
     @JoinColumn(name = "id_suscripcion", referencedColumnName = "id",
             foreignKey = @ForeignKey(name = "FK_cliente_suscripcion"))
     private Suscripcion suscripcion;
-
-    @ManyToOne
-    @JoinColumn(name = "id_racha", referencedColumnName = "id",
-            foreignKey = @ForeignKey(name = "FK_cliente_racha"))
-    private Racha racha;
 
     @OneToOne
     @JoinColumn(name = "id_usuario", referencedColumnName = "id",
@@ -59,7 +49,7 @@ public class Cliente {
     private Usuario usuario;
 
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
-    private List<Recompensa> recompensas;
+    private List<Racha> rachas;
 
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
     private List<Habito> habitos;
@@ -69,5 +59,9 @@ public class Cliente {
 
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
     private List<AccesoPlan> planesAlimenticios;
+
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
+    private List<Meta> meta;
+
 
 }

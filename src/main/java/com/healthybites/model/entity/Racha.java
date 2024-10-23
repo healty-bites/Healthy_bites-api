@@ -9,18 +9,22 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "racha")
 public class Racha {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer cliente;
+
+    @Id
+    private Integer Recompensa;
 
     @Column(name = "dias_consecutivos", nullable = false)
     private int diasConsecutivos;
 
-    @Column(name = "ultima_fecha_registro", nullable = false)
-    private LocalDateTime ultimaFechaRegistro;
+    @Column(name = "fecha_registro_actual", nullable = false)
+    private LocalDateTime fechaRegistroActual;
 
-    @ManyToOne
-    @JoinColumn(name = "id_cliente", referencedColumnName = "id",
-            foreignKey = @ForeignKey(name = "FK_racha_cliente"))
-    private Cliente cliente;
+    @Column(name = "fecha_creacion", nullable = false)
+    private LocalDateTime fechaCreacion;
+
+    @Column(name = "fecha_actualizacion", nullable = false)
+    private LocalDateTime fechaActualizacion;
 }

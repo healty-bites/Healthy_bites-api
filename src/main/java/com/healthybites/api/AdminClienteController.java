@@ -1,7 +1,7 @@
 package com.healthybites.api;
 
-import com.healthybites.dto.ClienteDTO;
-import com.healthybites.model.entity.Cliente;
+import com.healthybites.dto.ClienteCreateDTO;
+import com.healthybites.dto.ClienteDetailsDTO;
 import com.healthybites.service.AdminClienteService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,26 +19,26 @@ public class AdminClienteController {
     private final AdminClienteService adminClienteService;
 
     @GetMapping
-    public ResponseEntity<List<ClienteDTO>> getAllCliente() {
-        List<ClienteDTO> clientes = adminClienteService.getAll();
+    public ResponseEntity<List<ClienteDetailsDTO>> getAllCliente() {
+        List<ClienteDetailsDTO> clientes = adminClienteService.getAll();
         return new ResponseEntity<>(clientes, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<ClienteDTO> createCliente(@Valid @RequestBody ClienteDTO clienteDTO) {
-        ClienteDTO newCliente = adminClienteService.create(clienteDTO);
+    public ResponseEntity<ClienteDetailsDTO> createCliente(@Valid @RequestBody ClienteCreateDTO clienteCreateDTO) {
+        ClienteDetailsDTO newCliente = adminClienteService.create(clienteCreateDTO);
         return new ResponseEntity<>(newCliente, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ClienteDTO> getClienteById(@PathVariable Integer id) {
-        ClienteDTO cliente = adminClienteService.findById(id);
+    public ResponseEntity<ClienteDetailsDTO> getClienteById(@PathVariable Integer id) {
+        ClienteDetailsDTO cliente = adminClienteService.findById(id);
         return new ResponseEntity<>(cliente, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ClienteDTO> updateCliente(@PathVariable Integer id, @Valid @RequestBody ClienteDTO clienteDTO) {
-        ClienteDTO updatedCliente = adminClienteService.update(id, clienteDTO);
+    public ResponseEntity<ClienteDetailsDTO> updateCliente(@PathVariable Integer id, @Valid @RequestBody ClienteCreateDTO clienteCreateDTO) {
+        ClienteDetailsDTO updatedCliente = adminClienteService.update(id, clienteCreateDTO);
         return new ResponseEntity<>(updatedCliente, HttpStatus.OK);
     }
 

@@ -45,22 +45,18 @@ public class SuscripcionServiceImpl implements SuscripcionService {
 
     @Override
     public SuscripcionDetailsDTO create(SuscripcionCreateUpdateDTO suscripcionCreateUpdateDTO) {
-
-        Cliente cliente = clienteRepository.findById(suscripcionCreateUpdateDTO.getClienteId())
-                .orElseThrow(() -> new ResourceNotFoundException("Cliente con id " + suscripcionCreateUpdateDTO.getClienteId() + " no encontrado"));
-
         Suscripcion suscripcion = suscripcionMapper.toEntity(suscripcionCreateUpdateDTO);
 
-        suscripcion.setCliente(cliente);
-        if (suscripcion.getTipoSuscripcion() == TipoSuscripcion.BASICO) {
-            suscripcion.setFechaInicio(LocalDateTime.now());
-            suscripcion.setFechaFin(LocalDateTime.now().plusYears(100));
-            suscripcion.setPrecio(0.00);
-        } else if (suscripcion.getTipoSuscripcion() == TipoSuscripcion.PREMIUM) {
-            suscripcion.setFechaInicio(LocalDateTime.now());
-            suscripcion.setFechaFin(LocalDateTime.now().plusMonths(1));
-            suscripcion.setPrecio(9.99);
-
+        switch (suscripcion.getTipoSuscripcion()) {
+            case BASICO -> {
+                suscripcion.setPrecio(0.00);
+            }
+            case PREMIUM -> {
+                suscripcion.setPrecio(5.99);
+            }
+            case VIP -> {
+                suscripcion.setPrecio(9.99);
+            }
         }
 
         return suscripcionMapper.toDTO(suscripcionRepository.save(suscripcion));
@@ -71,18 +67,20 @@ public class SuscripcionServiceImpl implements SuscripcionService {
         Suscripcion suscripcionFromDb = suscripcionRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Suscripcion con id " + id + " no encontrado"));
 
-        Cliente cliente = clienteRepository.findById(updateSuscripcionDTO.getClienteId())
-                .orElseThrow(() -> new ResourceNotFoundException("Cliente con id " + updateSuscripcionDTO.getClienteId() + " no encontrado"));
-
 
         suscripcionFromDb.setTipoSuscripcion(updateSuscripcionDTO.getTipoSuscripcion());
 
-         if (updateSuscripcionDTO.getTipoSuscripcion() == TipoSuscripcion.PREMIUM) {
-             suscripcionFromDb.setFechaInicio(LocalDateTime.now());
-             suscripcionFromDb.setFechaFin(LocalDateTime.now().plusMonths(1));
-             suscripcionFromDb.setPrecio(9.99);
+        switch (updateSuscripcionDTO.getTipoSuscripcion()) {
+            case BASICO -> {
+                suscripcionFromDb.setPrecio(0.00);
+            }
+            case PREMIUM -> {
+                suscripcionFromDb.setPrecio(5.99);
+            }
+            case VIP -> {
+                suscripcionFromDb.setPrecio(9.99);
+            }
         }
-         suscripcionFromDb.setCliente(cliente);
 
         return suscripcionMapper.toDTO(suscripcionRepository.save(suscripcionFromDb));
     }

@@ -1,6 +1,7 @@
 package com.healthybites.mapper;
 
-import com.healthybites.dto.ClienteDTO;
+import com.healthybites.dto.ClienteCreateDTO;
+import com.healthybites.dto.ClienteDetailsDTO;
 import com.healthybites.model.entity.*;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
@@ -13,14 +14,19 @@ public class ClienteMapper {
 
     public ClienteMapper(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
+        this.modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
     }
 
-    public ClienteDTO toDTO(Cliente cliente) {
-        return modelMapper.map(cliente, ClienteDTO.class);
+    public ClienteDetailsDTO toDTO(Cliente cliente) {
+        ClienteDetailsDTO clienteDetailsDTO = modelMapper.map(cliente, ClienteDetailsDTO.class);
+
+        clienteDetailsDTO.setSuscripcionTipo(cliente.getSuscripcion().getTipoSuscripcion().toString());
+
+        return clienteDetailsDTO;
     }
 
-    public Cliente toEntity(ClienteDTO clienteDTO) {
-        return modelMapper.map(clienteDTO, Cliente.class);
+    public Cliente toEntity(ClienteCreateDTO clienteCreateDTO) {
+        return modelMapper.map(clienteCreateDTO, Cliente.class);
     }
 
 }

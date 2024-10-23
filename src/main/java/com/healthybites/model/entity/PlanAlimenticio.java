@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -34,7 +35,7 @@ public class PlanAlimenticio {
     @Column(name = "fecha_actualizacion", nullable = false)
     private LocalDateTime fechaActualizacion;
 
-    @OneToMany(mappedBy = "planAlimenticio", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "planAlimenticio", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ComidaDiaria> comidasDiarias;
 
     @ManyToOne

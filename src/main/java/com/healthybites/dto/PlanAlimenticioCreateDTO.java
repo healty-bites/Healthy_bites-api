@@ -12,5 +12,4 @@ public class PlanAlimenticioCreateDTO {
     private int duracionDias;
     private boolean esGratis;
     private Integer nutricionistaId;
-    private List<Integer> comidasDiariasIds;
 }

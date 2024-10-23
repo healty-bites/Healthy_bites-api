@@ -1,12 +1,15 @@
 package com.healthybites.mapper;
 
-import com.healthybites.dto.ComidaDiariaDetailsDTO;
+import com.healthybites.dto.ComidaDiariaDTO;
+import com.healthybites.dto.ContenidoCreateUpdateDTO;
 import com.healthybites.dto.PlanAlimenticioCreateDTO;
 import com.healthybites.dto.PlanAlimenticioDTO;
 import com.healthybites.model.entity.PlanAlimenticio;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.stereotype.Component;
+
+import java.util.stream.Collectors;
 
 @Component
 public class PlanAlimenticioMapper {
@@ -23,9 +26,8 @@ public class PlanAlimenticioMapper {
 
         planAlimenticioDTO.setNutricionistaNombre(planAlimenticio.getNutricionista().getNombre() + " " + planAlimenticio.getNutricionista().getApellido());
         planAlimenticioDTO.setCaloriasTotales(planAlimenticio.getComidasDiarias().stream().mapToInt(comidaDiaria -> comidaDiaria.getCalorias()).sum());
-        planAlimenticioDTO.getComidasDiarias().forEach(comidaDiaria -> {
-            comidaDiaria.setNombrePlanAlimenticio(planAlimenticio.getPlanObjetivo().toString());
-        });
+
+
         return planAlimenticioDTO;
     }
 

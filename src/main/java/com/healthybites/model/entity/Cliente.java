@@ -44,12 +44,14 @@ public class Cliente {
     private Suscripcion suscripcion;
 
     @OneToOne
+    @JoinColumn(name = "id_racha", referencedColumnName = "id",
+            foreignKey = @ForeignKey(name = "FK_cliente_racha"))
+    private Racha racha;
+
+    @OneToOne
     @JoinColumn(name = "id_usuario", referencedColumnName = "id",
             foreignKey = @ForeignKey(name = "FK_cliente_usuario"))
     private Usuario usuario;
-
-    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
-    private List<Racha> rachas;
 
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
     private List<Habito> habitos;

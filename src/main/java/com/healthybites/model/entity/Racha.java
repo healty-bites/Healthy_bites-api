@@ -8,24 +8,25 @@ import java.time.LocalDateTime;
 @Data
 @Entity
 @Table(name = "racha")
-//@IdClass(RachaPK.class)
 public class Racha {
-
     @Id
-    private Integer cliente;
-
-    @Id
-    private Integer Recompensa;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
     @Column(name = "dias_consecutivos", nullable = false)
     private int diasConsecutivos;
 
     @Column(name = "fecha_registro_actual", nullable = false)
-    private LocalDateTime fechaRegistroActual;
+    private LocalDateTime fechaRegistro;
 
-    @Column(name = "fecha_creacion", nullable = false)
-    private LocalDateTime fechaCreacion;
+    @OneToOne
+    @JoinColumn(name = "id_cliente", referencedColumnName = "id",
+            foreignKey = @ForeignKey(name = "FK_racha_cliente"))
+    private Cliente cliente;
 
-    @Column(name = "fecha_actualizacion", nullable = false)
-    private LocalDateTime fechaActualizacion;
+    @OneToOne
+    @JoinColumn(name = "id_recompensa", referencedColumnName = "id",
+            foreignKey = @ForeignKey(name = "FK_racha_recompensa"))
+    private Recompensa recompensa;
+
 }

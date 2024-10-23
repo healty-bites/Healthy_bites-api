@@ -28,8 +28,15 @@ public class Recompensa {
     @Column(name = "fecha_actualizacion", nullable = false)
     private LocalDateTime fechaActualizacion;
 
+    @OneToOne
+    @JoinColumn(name = "id_racha", referencedColumnName = "id",
+            foreignKey = @ForeignKey(name = "FK_recompensa_racha"))
+    private Racha racha;
+
     @ManyToOne
     @JoinColumn(name = "id_nutricionista", referencedColumnName = "id",
             foreignKey = @ForeignKey(name = "FK_recompensa_nutricionista"))
     private Nutricionista nutricionista;
+
+
 }

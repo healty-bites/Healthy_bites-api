@@ -36,5 +36,4 @@ public interface AccesoPlanRepository extends JpaRepository<AccesoPlan, AccesoPl
     @Query("SELECT COUNT(ap) > 0 FROM AccesoPlan ap WHERE ap.cliente.id = :clienteId AND ap.planAlimenticio.id = :planId")
     boolean existsByClienteIdAndPlanId(@Param("clienteId") Integer clienteId, @Param("planId") Integer planId);
 
-
 }
